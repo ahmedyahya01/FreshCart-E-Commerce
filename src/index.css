@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.active {
+  color: #36bb36;
+  transition: 0.5s all;
+}
+
+::selection {
+  background-color: #36bb36;
+  color: white;
+}
+.loaderHeight {
+  height: calc(100vh - 84px);
+}
+.slick-prev:before,
+.slick-next:before {
+  opacity: 1 !important;
+  color: black !important;
+}

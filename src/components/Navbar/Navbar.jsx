@@ -1,0 +1,299 @@
+import React, { useContext, useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../../assets/images/freshcart-logo.svg";
+import cartImg from "../../assets/images/reshot-icon-cart-CU9PKG8Z5X.svg";
+import { authContextProvider } from "../../context/AuthContextProvider";
+import { cartContext } from "../../context/CartContext";
+import { wishlistContext } from "../../context/WishlistContext";
+
+export default function Navbar() {
+  const { token, setToken } = useContext(authContextProvider);
+  const { numberOfCartItems, setCartProducts } = useContext(cartContext);
+  const [userIcon, setUserIcon] = useState(false);
+  const [isMenu, setIsMenu] = useState(false);
+  const [isSettingsOpen, setisSettingsOpen] = useState(false);
+  const { email, name } = useContext(authContextProvider);
+  const { count } = useContext(wishlistContext);
+  let navigate = useNavigate();
+
+  function handleLogOut() {
+    setTimeout(() => {
+      localStorage.removeItem("tkn");
+      localStorage.removeItem("email");
+      localStorage.removeItem("name");
+      localStorage.removeItem("cartData");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("Cart");
+      localStorage.removeItem("wishlist");
+      setCartProducts([]);
+      setToken(null);
+      navigate("/Home");
+    }, 1000);
+  }
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    function handleScroll() {
+      const currentScrollY = window.scrollY;
+      if (Math.abs(currentScrollY - lastScrollY) > 5) {
+        if (isMenu) setIsMenu(false);
+        if (userIcon) setUserIcon(false);
+        lastScrollY = currentScrollY;
+      }
+    }
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isMenu, userIcon]);
+  return (
+    <>
+      <nav className="bg-[#F0F3F2] text-black text-opacity-70 py-5 shadow-md sticky top-0 z-10">
+        <div className="container">
+          <div className="flex flex-wrap items-center justify-between">
+            <NavLink to={"/Home"}>
+              <img src={logo} alt="Fresh Cart" className="w-full" />
+            </NavLink>
+            <div className="flex relative items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+              <button
+                onClick={() => setUserIcon(!userIcon)}
+                type="button"
+                className="flex text-sm rounded-full md:me-0"
+                id="user-menu-button"
+                aria-expanded="false"
+                data-dropdown-toggle="user-dropdown"
+                data-dropdown-placement="bottom"
+              >
+                <span className="sr-only">Open user menu</span>
+                <div className="w-10 lg:w-12 h-10 text-center lg:h-12 flex justify-center items-center rounded-full bg-white border">
+                  <i className="fa-solid fa-user text-2xl xl:text-3xl"></i>
+                </div>
+              </button>
+              {/* Dropdown menu */}
+              <div
+                className={`z-50 absolute ${
+                  userIcon ? "block" : "hidden"
+                } right-0 top-10 md:top-8 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md border-2`}
+                id="user-dropdown"
+              >
+                {token ? (
+                  <>
+                    <div className="px-4 py-3 border-b-2">
+                      <span className="block text-xs lg:text-base opacity-90">
+                        {name}
+                      </span>
+                      <span className="block text-sm lg:text-lg opacity-90">
+                        {email}
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+                <ul aria-labelledby="user-menu-button">
+                  {token ? (
+                    <>
+                      <li
+                        onClick={() => setisSettingsOpen(!isSettingsOpen)}
+                        className="px-5 py-1 text-sm lg:text-lg cursor-pointer flex items-center"
+                      >
+                        Settings
+                        <svg
+                          className="w-3.5 h-3.5 ms-1"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 10 6"
+                        >
+                          <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="m1 1 4 4 4-4"
+                          />
+                        </svg>
+                      </li>
+                      <ul
+                        className={`px-8 ${
+                          isSettingsOpen ? "block" : "hidden"
+                        }`}
+                      >
+                        <li className="py-1 text-sm lg:text-base cursor-pointer">
+                          <NavLink
+                            to={"/UpdatePassword"}
+                            onClick={() => {
+                              setUserIcon(!userIcon);
+                            }}
+                          >
+                            Change Password
+                          </NavLink>
+                        </li>
+                        <li className="py-1 text-sm lg:text-base cursor-pointer">
+                          <NavLink
+                            to={"UpdateUserData"}
+                            onClick={() => {
+                              setUserIcon(!userIcon);
+                            }}
+                          >
+                            Change User Data
+                          </NavLink>
+                        </li>
+                      </ul>
+                      <li>
+                        <NavLink
+                          to={"AllUserAddresses"}
+                          onClick={() => {
+                            setUserIcon(!userIcon);
+                          }}
+                          className="block py-1 px-5 sm lg:text-lg cursor-pointer"
+                        >
+                          Addresses
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/allorders"
+                          onClick={() => {
+                            setUserIcon(!userIcon);
+                          }}
+                          className="block py-1 px-5 sm lg:text-lg cursor-pointer"
+                        >
+                          Orders
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/Wishlist"
+                          onClick={() => {
+                            setUserIcon(!userIcon);
+                          }}
+                          className="flex items-center gap-2 py-1 px-5 sm lg:text-lg cursor-pointer"
+                        >
+                          Wishlist
+                          <span className="w-5 h-5 text-xs rounded-md text-white bg-[#36BB36] flex justify-center items-center">
+                            {count}
+                          </span>
+                        </NavLink>
+                      </li>
+                      <li className="border-t">
+                        <span
+                          onClick={() => {
+                            setUserIcon(!userIcon), handleLogOut();
+                          }}
+                          className="block py-2 px-5 text-sm lg:text-lg cursor-pointer"
+                        >
+                          Sign out
+                          <i className="fa-solid fa-right-from-bracket ms-1"></i>
+                        </span>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <>
+                        <li>
+                          <NavLink
+                            to={"/login"}
+                            onClick={() => setUserIcon(!userIcon)}
+                            className="block py-1 px-5 lg:text-lg border-b-2"
+                          >
+                            Login
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink
+                            to={"/signup"}
+                            onClick={() => setUserIcon(!userIcon)}
+                            className="block py-1 px-5 lg:text-lg"
+                          >
+                            SignUp
+                          </NavLink>
+                        </li>
+                      </>
+                    </>
+                  )}
+                </ul>
+              </div>
+              <button
+                onClick={() => {
+                  setIsMenu(!isMenu);
+                }}
+                data-collapse-toggle="navbar-user"
+                type="button"
+                className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                aria-controls="navbar-user"
+                aria-expanded="false"
+              >
+                <span className="sr-only">Open main menu</span>
+                {isMenu ? (
+                  <i className="fa-solid fa-xmark text-2xl"></i>
+                ) : (
+                  <i className="fa-solid fa-bars text-2xl"></i>
+                )}
+              </button>
+            </div>
+            <div
+              className={`items-center justify-between ${
+                isMenu ? "block" : "hidden"
+              } w-full md:flex md:w-auto md:order-1`}
+              id="navbar-user"
+            >
+              <ul className="flex flex-col justify-center text-lg xl:text-xl items-center font-medium mt-2 md:space-x-2 md:flex-row md:mt-0">
+                <>
+                  <li>
+                    <NavLink
+                      to="/Products"
+                      onClick={() => setIsMenu(!isMenu)}
+                      className="block py-2 px-3"
+                      aria-current="page"
+                    >
+                      Products
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/Categories"
+                      onClick={() => setIsMenu(!isMenu)}
+                      className="block py-2 px-3"
+                    >
+                      Categories
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/Brands"
+                      onClick={() => setIsMenu(!isMenu)}
+                      className="block py-2 px-3"
+                    >
+                      Brands
+                    </NavLink>
+                  </li>
+                  {token ? (
+                    <li className="pt-3 md:pt-0">
+                      <NavLink
+                        onClick={() => setIsMenu(!isMenu)}
+                        className={"py-2 rounded duration-300 relative"}
+                        to="/cart"
+                      >
+                        <span className="absolute w-5 h-5 text-xs rounded-md text-white bg-[#36BB36] -top-[6px] left-[50%] -translate-x-[25%] flex justify-center items-center">
+                          {numberOfCartItems}
+                        </span>
+                        <img
+                          src={cartImg}
+                          className="w-9 inline-block"
+                          alt="cart"
+                        />
+                      </NavLink>
+                    </li>
+                  ) : (
+                    ""
+                  )}
+                </>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </>
+  );
+}
