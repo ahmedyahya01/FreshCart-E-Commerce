@@ -16,7 +16,8 @@ export default function CheckOut() {
   const { allAddresses } = useContext(addressProvider);
   const [changeAddressColor, setChangeAddressColor] = useState(false);
   const [loading, setLoding] = useState(false);
-  const { allProducts, totalCartPrice, cartId, getUserCart } =
+  const [onlineLoading, setOnlineLoding] = useState(false);
+  const { allProducts, totalCartPrice, cartId, getUserCart, setCartProducts } =
     useContext(cartContext);
   const [selectedAddress, setSelectedAddress] = useState(false);
 
@@ -38,9 +39,10 @@ export default function CheckOut() {
           },
         }
       );
-      console.log(res);
+      localStorage.removeItem("Cart");
+      setCartProducts([]);
       toast.success("Purchased successfully", {
-        position: "top-center",
+        position: "bottom-right",
         duration: 3000,
         className: "md:text-xl",
       });
@@ -54,10 +56,11 @@ export default function CheckOut() {
     setLoding(false);
   }
   async function createOnlinePayment() {
+    setOnlineLoding(true);
     try {
       const res = await axios.post(
         // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`,
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://freshcart-ecommerce1.netlify.app`,
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://freshcart-ecommerce1.netlify.app/`,
         {
           shippingAddress: {
             details: selectedAddress.details,
@@ -72,9 +75,12 @@ export default function CheckOut() {
         }
       );
       window.open(res.data.session.url);
+      localStorage.removeItem("Cart");
+      setCartProducts([]);
     } catch (error) {
       console.log(error);
     }
+    setOnlineLoding(false);
   }
 
   return (
@@ -227,7 +233,7 @@ export default function CheckOut() {
                   }}
                   className="px-2 py-2 md:text-lg lg:text-xl bg-[#36BB36] hover:bg-[#4FC74F] text-[rgba(255,255,255,90%)] rounded-md duration-300 md:w-1/3"
                 >
-                  Buy with Visa
+                  {onlineLoading ? "Loading..." : "Buy with Visa"}
                 </button>
               </div>
             </div>

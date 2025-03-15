@@ -59,7 +59,7 @@ export default function ProductDetails() {
     }
     if (flag) {
       toast.success("Added to cart successfully", {
-        position: "top-center",
+        position: "bottom-right",
         duration: 3000,
         className: "md:text-xl",
       });
@@ -67,7 +67,7 @@ export default function ProductDetails() {
       navigate("/login");
     } else {
       toast.error("Add to cart failed, Check intenet", {
-        position: "top-center",
+        position: "bottom-right",
         duration: 3000,
         className: "md:text-xl",
       });

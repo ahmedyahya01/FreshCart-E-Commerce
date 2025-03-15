@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import {
-  createHashRouter,
+  createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -58,7 +58,7 @@ const SpecificBrand = lazy(() =>
 );
 const queryClient = new QueryClient();
 export default function App() {
-  const router = createHashRouter([
+  const router = createBrowserRouter([
     {
       path: "",
       element: <Layout />,

@@ -50,8 +50,7 @@ export default function CartContextProvider({ children }) {
           );
         });
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
   }
   async function updateCartQuantity(count, productId) {
     return axios
@@ -137,9 +136,10 @@ export default function CartContextProvider({ children }) {
     if (isAdding) {
       if (!updatedCart.includes(proId)) {
         updatedCart.push(proId);
-      } else {
-        updatedCart = updatedCart.filter((id) => id !== proId);
       }
+      // else {
+      //   updatedCart = updatedCart.filter((id) => id !== proId);
+      // }
     }
     localStorage.setItem("Cart", JSON.stringify(updatedCart));
     setCartProducts([...updatedCart]);
@@ -167,6 +167,7 @@ export default function CartContextProvider({ children }) {
         setCartProducts,
         setRemoveCart,
         removeCart,
+        updateLocalStorage,
       }}
     >
       {children}
