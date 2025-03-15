@@ -43,7 +43,7 @@ export default function Whishlist() {
         <section id="Whishlist" className="py-10">
           {allData.length == 0 ? (
             <div className="flex flex-col gap-2 items-center mx-auto md:w-3/4">
-              <h1 className="text-lg md:text-xl lg:text-2xl font-semibold">
+              <h1 className="text-lg md:text-xl lg:text-2xl font-semibold text-center">
                 Your wishlist is empty. Start adding your favorite items now!
               </h1>
               <Link
