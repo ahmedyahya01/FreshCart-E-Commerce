@@ -35,55 +35,55 @@ export default function SpecificBrand() {
   if (specificBrandData && ProductsInBrand.error) {
     return <InternetAlert />;
   }
-  const allSpecificBrandData = specificBrandData.data?.data?.data;
-  const allProductsInBrand = ProductsInBrand.data?.data?.data;
+  const allSpecificBrandData = specificBrandData?.data?.data?.data;
+  const allProductsInBrand = ProductsInBrand?.data?.data?.data;
   return (
     <>
       <Helmet>
-        <title>{allSpecificBrandData.name} Products | FreshCart</title>
+        <title>{allSpecificBrandData?.name} Products | FreshCart</title>
         <meta
           name="description"
-          content={`Explore top-quality products from ${allSpecificBrandData.name} at FreshCart. Find the best deals and latest collections.`}
+          content={`Explore top-quality products from ${allSpecificBrandData?.name} at FreshCart. Find the best deals and latest collections.`}
         />
         <meta
           name="keywords"
-          content={`FreshCart, ${allSpecificBrandData.name}, ${allSpecificBrandData.name} products, buy ${allSpecificBrandData.name}, ${allSpecificBrandData.name} offers`}
+          content={`FreshCart, ${allSpecificBrandData?.name}, ${allSpecificBrandData?.name} products, buy ${allSpecificBrandData?.name}, ${allSpecificBrandData?.name} offers`}
         />
         <meta
           property="og:title"
-          content={`${allSpecificBrandData.name} Products | FreshCart`}
+          content={`${allSpecificBrandData?.name} Products | FreshCart`}
         />
         <meta
           property="og:description"
-          content={`Shop for the latest ${allSpecificBrandData.name} products on FreshCart. Best prices and exclusive discounts.`}
+          content={`Shop for the latest ${allSpecificBrandData?.name} products on FreshCart. Best prices and exclusive discounts.`}
         />
       </Helmet>
 
       <section id="specificBrand" className="py-10">
         <div className="container">
           <div
-            key={allSpecificBrandData._id}
+            key={allSpecificBrandData?._id}
             className="flex flex-col items-center gap-3"
           >
             <div>
               <img
-                src={allSpecificBrandData.image}
+                src={allSpecificBrandData?.image}
                 className="w-full rounded-lg"
-                alt={allSpecificBrandData.name}
+                alt={allSpecificBrandData?.name}
               />
             </div>
             <h1 className="text-lg lg:text-3xl font-semibold">
-              {allSpecificBrandData.name}
+              {allSpecificBrandData?.name}
             </h1>
           </div>
           <div>
-            {allProductsInBrand.length == 0 ? (
+            {allProductsInBrand?.length == 0 ? (
               <p className="text-center mt-4 text-lg md:text-xl lg:text-2xl leading-6">
                 Sorry, there are no products in this category at the moment!
               </p>
             ) : (
               <div className="grid md:grid-cols-2 mt-14 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {allProductsInBrand.map((product) => (
+                {allProductsInBrand?.map((product) => (
                   <ProductItem product={product} key={product.id} />
                 ))}
               </div>
