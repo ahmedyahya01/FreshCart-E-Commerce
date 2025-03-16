@@ -58,7 +58,7 @@ export default function AllOrders() {
       </Helmet>
       <section id="allOrders" className="py-10">
         <div className="container">
-          {allOrders.length == 0 ? (
+          {allOrders?.length == 0 ? (
             <div className="text-center">
               <h1 className="mb-6 text-xl lg:text-2xl text-center font-semibold">
                 Dont't Have Orders Yet, <br /> Start shopping now and enjoy a seamless
@@ -105,7 +105,7 @@ export default function AllOrders() {
                     </tr>
                   </thead>
                   <tbody>
-                    {allOrders.map((order) => (
+                    {allOrders?.map((order) => (
                       <tr key={order._id} className="bg-white border-b">
                         <td className="px-6 py-2">#{order.id}</td>
                         <td className="px-6 py-2">

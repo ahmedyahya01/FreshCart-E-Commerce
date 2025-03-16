@@ -17,7 +17,6 @@ export default function AddressContextProvider({ children }) {
         setAllAddresses(res.data.data);
       })
       .catch((error) => {
-        console.log(error);
       });
   }
   async function removeAddress(id) {
@@ -30,7 +29,6 @@ export default function AddressContextProvider({ children }) {
           },
         }
       );
-      console.log(res);
       getAllAddresses();
       toast.success("Address removed", {
         position: "bottom-right",
@@ -43,7 +41,6 @@ export default function AddressContextProvider({ children }) {
         duration: 3000,
         className: "md:text-xl",
       });
-      console.log(error);
     }
   }
   useEffect(() => {

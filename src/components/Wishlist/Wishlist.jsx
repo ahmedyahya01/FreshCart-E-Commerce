@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-import Loader from "./../LoadingScreen/Loader";
+import Loader from "../LoadingScreen/Loader";
 import { wishlistContext } from "../../context/WishlistContext";
 import { cartContext } from "../../context/CartContext";
 import { Helmet } from "react-helmet";
-export default function Whishlist() {
+export default function Wishlist() {
   useEffect(() => {
     window.scroll(0, 0);
   }, []);

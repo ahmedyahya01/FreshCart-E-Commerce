@@ -21,9 +21,6 @@ export default function Products() {
   if (isLoading) {
     return <Loader />;
   }
-  if (error) {
-    return <InternetAlert />;
-  }
   function filterProducts(products, searchTerm) {
     return products.filter((product) =>
       [product?.title, product?.brand?.name, product?.category?.name].some(

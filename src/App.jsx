@@ -1,61 +1,37 @@
 import React, { lazy, Suspense } from "react";
-import {
-  createHashRouter,
-  RouterProvider,
-} from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import Loader from "./components/LoadingScreen/Loader";
 import { Offline } from "react-detect-offline";
-const Layout = lazy(() => import("./components/Layout/Layout"));
-const SignUp = lazy(() => import("./components/SignUp/SignUp"));
-const Products = lazy(() => import("./components/Products/Products"));
-const Categories = lazy(() => import("./components/Categories/Categories"));
-const Brands = lazy(() => import("./components/Brands/Brands"));
-const Login = lazy(() => import("./components/Login/Login"));
-const NotFound = lazy(() => import("./components/Not Found/NotFound"));
-const AuthContextProvider = lazy(() => import("./context/AuthContextProvider"));
-const ProtectedRoute = lazy(() =>
-  import("./components/ProtectedRoute/ProtectedRoute")
-);
-const Home = lazy(() => import("./components/Home/Home"));
-const ProductDetails = lazy(() =>
-  import("./components/ProductDetails/ProductDetails")
-);
-const CartContextProvider = lazy(() => import("./context/CartContext"));
-const Cart = lazy(() => import("./components/Cart/Cart"));
-const ForgetPassword = lazy(() =>
-  import("./components/ForgetPassword/ForgetPassword")
-);
-const VerifyResetCode = lazy(() =>
-  import("./components/verifyResetPassword/VerifyResetCode")
-);
-const ResetPassword = lazy(() =>
-  import("./components/ResetPassword/ResetPassword")
-);
-const AddUserAddress = lazy(() =>
-  import("./components/AddUserAddress/AddUserAddress")
-);
-const AddressContextProvider = lazy(() => import("./context/AddressContext"));
-const AllUserAddresses = lazy(() =>
-  import("./components/AllUserAddresses/AllUserAddresses")
-);
-const CheckOut = lazy(() => import("./components/CheckOut/CheckOut"));
-const AllOrders = lazy(() => import("./components/AllOrders/AllOrders"));
-const UpdatePassword = lazy(() =>
-  import("./components/UpdatePassword/UpdatePassword")
-);
-const UpdateUserData = lazy(() =>
-  import("./components/UpdateUserInfo/UpdateUserData")
-);
-const Whishlist = lazy(() => import("./components/Whishlist/Whishlist"));
-const WashlistContextProvider = lazy(() => import("./context/WishlistContext"));
-const SpecificCategory = lazy(() =>
-  import("./components/SpecificCategory/SpecificCategory")
-);
-const SpecificBrand = lazy(() =>
-  import("./components/SpecificBrand/SpecificBrand")
-);
+import Layout from "./components/Layout/Layout";
+import Home from "./components/Home/Home";
+import Products from "./components/Products/Products";
+import ProductDetails from "./components/ProductDetails/ProductDetails";
+import Categories from "./components/Categories/Categories";
+import SpecificCategory from "./components/SpecificCategory/SpecificCategory";
+import Brands from "./components/Brands/Brands";
+import SpecificBrand from "./components/SpecificBrand/SpecificBrand";
+import Cart from "./components/Cart/Cart";
+import AddUserAddress from "./components/AddUserAddress/AddUserAddress";
+import AllUserAddresses from "./components/AllUserAddresses/AllUserAddresses";
+import CheckOut from "./components/CheckOut/CheckOut";
+import AllOrders from "./components/AllOrders/AllOrders";
+import Wishlist from "./components/Wishlist/Wishlist";
+import UpdatePassword from "./components/UpdatePassword/UpdatePassword";
+import UpdateUserData from "./components/UpdateUserInfo/UpdateUserData";
+import SignUp from "./components/SignUp/SignUp";
+import Login from "./components/Login/Login";
+import ForgetPassword from "./components/ForgetPassword/ForgetPassword";
+import VerifyResetCode from "./components/verifyResetPassword/VerifyResetCode";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
+import NotFound from "./components/NotFound/NotFound";
+import AuthContextProvider from "./context/AuthContextProvider";
+import CartContextProvider from "./context/CartContext";
+import AddressContextProvider from "./context/AddressContext";
+import WishlistContextProvider from "./context/WishlistContext";
+
 const queryClient = new QueryClient();
 export default function App() {
   const router = createHashRouter([
@@ -143,7 +119,7 @@ export default function App() {
           path: "/Wishlist",
           element: (
             <ProtectedRoute>
-              <Whishlist />
+              <Wishlist />
             </ProtectedRoute>
           ),
         },
@@ -179,16 +155,14 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <CartContextProvider>
             <AddressContextProvider>
-              <WashlistContextProvider>
-                <Suspense fallback={<Loader />}>
-                  <RouterProvider router={router} />
-                </Suspense>
+              <WishlistContextProvider>
+                <RouterProvider router={router} />
                 <Offline>
                   <div className="fixed w-10/12 md:w-fit lg:text-lg top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-black text-white text-center rounded-md py-3 px-5 font-bold z-50">
                     ⚠️ No Internet Connection. Please check your network.
                   </div>
                 </Offline>
-              </WashlistContextProvider>
+              </WishlistContextProvider>
               <Toaster />
             </AddressContextProvider>
           </CartContextProvider>

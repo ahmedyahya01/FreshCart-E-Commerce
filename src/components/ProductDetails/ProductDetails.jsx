@@ -46,9 +46,6 @@ export default function ProductDetails() {
   if (isLoading) {
     return <Loader />;
   }
-  if (isError) {
-    return <InternetAlert />;
-  }
   const allData = data?.data?.data;
 
   async function handleAddToCart(id) {
@@ -82,21 +79,21 @@ export default function ProductDetails() {
             <div className="mb-4 lg:hidden">
               <div className="flex justify-between mb-2 text-sm">
                 <span className="bg-[#e6e9e8] px-4 py-1 rounded-lg">
-                  {allData.category.name}
+                  {allData?.category.name}
                 </span>
                 <span className="bg-[#F0F3F2] px-4 py-1 rounded-lg">
-                  {allData.brand.name}
+                  {allData?.brand.name}
                 </span>
               </div>
               <h2 className="font-semibold leading-snug text-xl md:text-2xl">
-                {allData.title}
+                {allData?.title}
               </h2>
               <div className="text-xs flex gap-1">
                 <span className="bg-[#238123] text-white px-2 rounded-md">
-                  {allData.ratingsAverage}
+                  {allData?.ratingsAverage}
                   <i className="fa-solid fa-star text-yellow-400"></i>
                 </span>
-                <span>({allData.ratingsQuantity} reviews)</span>
+                <span>({allData?.ratingsQuantity} reviews)</span>
               </div>
             </div>
             <div
@@ -106,34 +103,34 @@ export default function ProductDetails() {
               <Slider {...settings} key={id}>
                 <div className="outline-none">
                   <img
-                    src={allData.images[0]}
-                    alt={allData.title}
+                    src={allData?.images[0]}
+                    alt={allData?.title}
                     className="w-full px-1 rounded-lg"
                   />
                 </div>
                 <div className="outline-none">
                   <img
-                    src={allData.images[1]}
-                    alt={allData.title}
+                    src={allData?.images[1]}
+                    alt={allData?.title}
                     className="w-full px-1 rounded-lg"
                   />
                 </div>
                 <div className="outline-none">
                   <img
-                    src={allData.images[2]}
-                    alt={allData.title}
+                    src={allData?.images[2]}
+                    alt={allData?.title}
                     className="w-full px-1 rounded-lg"
                   />
                 </div>
                 <div className="outline-none">
                   <img
-                    src={allData.images[3]}
-                    alt={allData.title}
+                    src={allData?.images[3]}
+                    alt={allData?.title}
                     className="w-full px-1 rounded-lg"
                   />
                 </div>
               </Slider>
-              {allData.priceAfterDiscount ? (
+              {allData?.priceAfterDiscount ? (
                 <img
                   src={saleImage}
                   className="w-12 absolute -top-3 left-1"
@@ -147,38 +144,38 @@ export default function ProductDetails() {
               <div className="mb-4 hidden lg:block">
                 <div className="flex justify-between lg:justify-start lg:gap-3 text-sm">
                   <span className="bg-[#e6e9e8] px-4 py-1 rounded-lg">
-                    {allData.category.name}
+                    {allData?.category.name}
                   </span>
                   <span className="bg-[#F0F3F2] px-4 py-1 rounded-lg">
-                    {allData.brand.name}
+                    {allData?.brand.name}
                   </span>
                 </div>
                 <h2 className="font-semibold leading-snug my-3 md:text-lg lg:text-4xl">
-                  {allData.title}
+                  {allData?.title}
                 </h2>
                 <div className="text-sm flex gap-1">
                   <span className="bg-[#238123] text-white px-2 rounded-md">
-                    {allData.ratingsAverage}
+                    {allData?.ratingsAverage}
                     <i className="fa-solid fa-star text-yellow-400"></i>
                   </span>
-                  <span>({allData.ratingsQuantity} reviews)</span>
+                  <span>({allData?.ratingsQuantity} reviews)</span>
                 </div>
               </div>
               <p className="leading-tight opacity-75 mb-4 md:text-lg">
-                {allData.description}
+                {allData?.description}
               </p>
               <Helmet>
-                <title>{`${allData.title} | FreshCart`}</title>
-                <meta name="description" content={allData.description} />
+                <title>{`${allData?.title} | FreshCart`}</title>
+                <meta name="description" content={allData?.description} />
                 <meta
                   name="keywords"
-                  content={`${allData.category.name}, ${allData.brand.name}, FreshCart, best prices`}
+                  content={`${allData?.category.name}, ${allData?.brand.name}, FreshCart, best prices`}
                 />
                 <meta
                   property="og:title"
-                  content={`${allData.title} | FreshCart`}
+                  content={`${allData?.title} | FreshCart`}
                 />
-                <meta property="og:description" content={allData.description} />
+                <meta property="og:description" content={allData?.description} />
                 <meta name="robots" content="index, follow" />
               </Helmet>
               <div className="flex my-2 justify-between items-center">
@@ -187,7 +184,7 @@ export default function ProductDetails() {
                     <span>
                       Available:{" "}
                       <span className="font-normal text-[#36BB36]">
-                        {allData.quantity} in stock
+                        {allData?.quantity} in stock
                       </span>
                     </span>
                   </div>
@@ -214,7 +211,7 @@ export default function ProductDetails() {
                   <span className="font-semibold mb-3 text-base md:text-lg">
                     Sold:{" "}
                     <span className="font-normal text-[#36BB36]">
-                      {allData.sold} Items
+                      {allData?.sold} Items
                     </span>
                   </span>
                   <div className="flex items-center gap-1 mb-5 text-base md:text-lg">
@@ -240,27 +237,27 @@ export default function ProductDetails() {
               <div className="flex items-center gap-2 my-3">
                 <p
                   className={`font-bold ${
-                    allData.priceAfterDiscount
+                    allData?.priceAfterDiscount
                       ? "line-through opacity-60 text-base lg:text-lg"
                       : "text-xl lg:text-2xl"
                   }`}
                 >
-                  EGP {allData.price}
+                  EGP {allData?.price}
                 </p>
-                {allData.priceAfterDiscount ? (
+                {allData?.priceAfterDiscount ? (
                   <p className="font-bold text-xl lg:text-2xl">
-                    EGP {allData.priceAfterDiscount}
+                    EGP {allData?.priceAfterDiscount}
                   </p>
                 ) : (
                   ""
                 )}
               </div>
               <button
-                onClick={() => handleAddToCart(allData.id)}
-                disabled={cartProducts.includes(allData.id)}
+                onClick={() => handleAddToCart(allData?.id)}
+                disabled={cartProducts.includes(allData?.id)}
                 className="w-full"
               >
-                {cartProducts.includes(allData.id) ? (
+                {cartProducts.includes(allData?.id) ? (
                   <div className="flex items-center justify-center gap-2 px-2 py-2 md:px-4 md:py-3 rounded-lg text-white bg-gradient-to-r from-[#333] to-[#777]">
                     <span>Product in cart</span>
                     <i className="fa-solid fa-check"></i>

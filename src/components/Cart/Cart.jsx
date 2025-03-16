@@ -32,7 +32,9 @@ export default function Cart() {
     }
   }
   function navigateToCheckOut() {
-    navigate("/CheckOut");
+    if (allProducts) {
+      navigate("/CheckOut");
+    }
   }
   return (
     <>

@@ -20,9 +20,6 @@ export default function Brands() {
   if (isLoading) {
     return <Loader />;
   }
-  if (error) {
-    return <InternetAlert />;
-  }
   return (
     <>
       <Helmet>

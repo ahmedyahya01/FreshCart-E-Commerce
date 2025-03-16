@@ -13,9 +13,6 @@ export default function Categories() {
   if (isLoading) {
     return <Loader />;
   }
-  if (error) {
-    return <InternetAlert />;
-  }
   return (
     <>
       <Helmet>

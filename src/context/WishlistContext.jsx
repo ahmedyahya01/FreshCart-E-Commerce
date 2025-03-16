@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { cartContext } from "./CartContext";
 export const wishlistContext = createContext();
 
-export default function WashlistContextProvider({ children }) {
+export default function WishlistContextProvider({ children }) {
   const [allData, setAllData] = useState(null);
   const [addLoading, setAddLoading] = useState(null);
   const [removeLoading, setRemoveLoading] = useState(null);

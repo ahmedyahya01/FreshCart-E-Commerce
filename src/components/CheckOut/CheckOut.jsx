@@ -28,9 +28,9 @@ export default function CheckOut() {
         `https://ecommerce.routemisr.com/api/v1/orders/${cartId}`,
         {
           shippingAddress: {
-            details: selectedAddress.details,
-            phone: selectedAddress.phone,
-            city: selectedAddress.city,
+            details: selectedAddress?.details,
+            phone: selectedAddress?.phone,
+            city: selectedAddress?.city,
           },
         },
         {
@@ -50,9 +50,7 @@ export default function CheckOut() {
         navigate("/allOrders");
         getUserCart();
       }, 1000);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     setLoding(false);
   }
   async function createOnlinePayment() {
@@ -61,12 +59,12 @@ export default function CheckOut() {
       const res = await axios.post(
         // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`,
         // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://fresh-cart-e-commerce-beta.vercel.app/`,
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://freshcart-ecommerce1.netlify.app/#/`,
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://freshcart-ecommerce1.netlify.app`,
         {
           shippingAddress: {
-            details: selectedAddress.details,
-            phone: selectedAddress.phone,
-            city: selectedAddress.city,
+            details: selectedAddress?.details,
+            phone: selectedAddress?.phone,
+            city: selectedAddress?.city,
           },
         },
         {
@@ -78,9 +76,7 @@ export default function CheckOut() {
       window.open(res.data.session.url);
       localStorage.removeItem("Cart");
       setCartProducts([]);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     setOnlineLoding(false);
   }
 
@@ -113,7 +109,7 @@ export default function CheckOut() {
               <h2 className="md:text-lg text-center font-semibold mt-5 lg:mt-3 mb-2 lg:mb-1">
                 Choose your delivery location
               </h2>
-              {allAddresses.length == 0 ? (
+              {allAddresses?.length == 0 ? (
                 <div className="text-center">
                   <p className="mb-5 text-lg md:text-xl font-semibold ">
                     Dont't Have Addresses Yet
@@ -129,7 +125,7 @@ export default function CheckOut() {
                 ""
               )}
               <div className="grid md:grid-cols-3 gap-3 border-b pb-3">
-                {allAddresses.map((address) => (
+                {allAddresses?.map((address) => (
                   <div
                     key={address._id}
                     onClick={() => {
