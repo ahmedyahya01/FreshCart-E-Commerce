@@ -32,12 +32,12 @@ export default function AllUserAddresses() {
       <section id="allAddresses" className="py-10">
         {allAddresses.length == 0 ? (
           <div className="text-center">
-            <h1 className="mb-5 text-lg md:text-xl lg:text-2xl font-semibold">
-              Dont't Have Addresses Yet
+            <h1 className="text-xl lg:text-2xl xl:text-3xl text-center mb-5 lg:mb-8 font-semibold">
+              You dont't Have Addresses Yet
             </h1>
             <Link
               to="/AddUserAddress"
-              className="px-6 py-3 lg:px-8 lg:py-4 text-center rounded-md md:text-lg text-white bg-[#36BB36] hover:bg-[#4fc74f] hover:scale-105 duration-300 "
+              className="px-4 py-3 lg:px-8 lg:py-4 text-center rounded-md md:text-lg text-white bg-[#36BB36] hover:bg-[#4fc74f] hover:scale-105 duration-300 "
             >
               <i className="fa-solid fa-cart-shopping me-2"></i>
               Add Adress

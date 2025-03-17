@@ -60,9 +60,9 @@ export default function AllOrders() {
         <div className="container">
           {allOrders?.length == 0 ? (
             <div className="text-center">
-              <h1 className="mb-6 text-xl lg:text-2xl text-center font-semibold">
-                Dont't Have Orders Yet, <br /> Start shopping now and enjoy a seamless
-                experience!
+              <h1 className="text-xl lg:text-2xl xl:text-3xl text-center mb-5 font-semibold">
+                Dont't Have Orders Yet, <br /> Start shopping now and enjoy a
+                seamless experience!
               </h1>
               <Link
                 to="/products"

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/freshcart-logo.svg";
 import cartImg from "../../assets/images/reshot-icon-cart-CU9PKG8Z5X.svg";
@@ -11,10 +11,15 @@ export default function Navbar() {
   const { numberOfCartItems, setCartProducts } = useContext(cartContext);
   const [userIcon, setUserIcon] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
-  const [isSettingsOpen, setisSettingsOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { email, name } = useContext(authContextProvider);
   const { count } = useContext(wishlistContext);
   let navigate = useNavigate();
+
+  const menuButtonRef = useRef(null);
+  const userButtonRef = useRef(null);
+  const userDropdownRef = useRef(null);
+  const menuDropdownRef = useRef(null);
 
   function handleLogOut() {
     setTimeout(() => {
@@ -27,12 +32,11 @@ export default function Navbar() {
       localStorage.removeItem("wishlist");
       setCartProducts([]);
       setToken(null);
-      navigate("/Home");
+      navigate("/login");
     }, 1000);
   }
   useEffect(() => {
     let lastScrollY = window.scrollY;
-
     function handleScroll() {
       const currentScrollY = window.scrollY;
       if (Math.abs(currentScrollY - lastScrollY) > 5) {
@@ -46,6 +50,32 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isMenu, userIcon]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(event.target) &&
+        menuDropdownRef.current &&
+        !menuDropdownRef.current.contains(event.target)
+      ) {
+        setIsMenu(false);
+      }
+      if (
+        userButtonRef.current &&
+        !userButtonRef.current.contains(event.target) &&
+        userDropdownRef.current &&
+        !userDropdownRef.current.contains(event.target)
+      ) {
+        setUserIcon(false);
+        setIsSettingsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <>
       <nav className="bg-[#F0F3F2] text-black text-opacity-70 py-5 shadow-md sticky top-0 z-10">
@@ -56,6 +86,7 @@ export default function Navbar() {
             </NavLink>
             <div className="flex relative items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
               <button
+                ref={userButtonRef}
                 onClick={() => setUserIcon(!userIcon)}
                 type="button"
                 className="flex text-sm rounded-full md:me-0"
@@ -69,8 +100,8 @@ export default function Navbar() {
                   <i className="fa-solid fa-user text-2xl xl:text-3xl"></i>
                 </div>
               </button>
-              {/* Dropdown menu */}
               <div
+                ref={userDropdownRef}
                 className={`z-50 absolute ${
                   userIcon ? "block" : "hidden"
                 } right-0 top-10 md:top-8 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md border-2`}
@@ -94,7 +125,7 @@ export default function Navbar() {
                   {token ? (
                     <>
                       <li
-                        onClick={() => setisSettingsOpen(!isSettingsOpen)}
+                        onClick={() => setIsSettingsOpen(!isSettingsOpen)}
                         className="px-5 py-1 text-sm lg:text-lg cursor-pointer flex items-center"
                       >
                         Settings
@@ -179,7 +210,8 @@ export default function Navbar() {
                       <li className="border-t">
                         <span
                           onClick={() => {
-                            setUserIcon(!userIcon), handleLogOut();
+                            setUserIcon(!userIcon);
+                            handleLogOut();
                           }}
                           className="block py-2 px-5 text-sm lg:text-lg cursor-pointer"
                         >
@@ -190,31 +222,30 @@ export default function Navbar() {
                     </>
                   ) : (
                     <>
-                      <>
-                        <li>
-                          <NavLink
-                            to={"/login"}
-                            onClick={() => setUserIcon(!userIcon)}
-                            className="block py-1 px-5 lg:text-lg border-b-2"
-                          >
-                            Login
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            to={"/signup"}
-                            onClick={() => setUserIcon(!userIcon)}
-                            className="block py-1 px-5 lg:text-lg"
-                          >
-                            SignUp
-                          </NavLink>
-                        </li>
-                      </>
+                      <li>
+                        <NavLink
+                          to={"/login"}
+                          onClick={() => setUserIcon(!userIcon)}
+                          className="block py-1 px-5 lg:text-lg border-b-2"
+                        >
+                          Login
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to={"/signup"}
+                          onClick={() => setUserIcon(!userIcon)}
+                          className="block py-1 px-5 lg:text-lg"
+                        >
+                          SignUp
+                        </NavLink>
+                      </li>
                     </>
                   )}
                 </ul>
               </div>
               <button
+                ref={menuButtonRef}
                 onClick={() => {
                   setIsMenu(!isMenu);
                 }}
@@ -233,6 +264,7 @@ export default function Navbar() {
               </button>
             </div>
             <div
+              ref={menuDropdownRef}
               className={`items-center justify-between ${
                 isMenu ? "block" : "hidden"
               } w-full md:flex md:w-auto md:order-1`}

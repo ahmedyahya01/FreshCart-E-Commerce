@@ -106,13 +106,17 @@ export default function CheckOut() {
               <h1 className="text-xl lg:text-2xl text-center pb-3 font-semibold border-b">
                 Review Your Order and Complete Payment
               </h1>
-              <h2 className="md:text-lg text-center font-semibold mt-5 lg:mt-3 mb-2 lg:mb-1">
-                Choose your delivery location
-              </h2>
+              {allAddresses?.length !== 0 ? (
+                <h2 className="md:text-lg text-center font-semibold mt-5 lg:mt-3 mb-2 lg:mb-1">
+                  Choose your delivery location
+                </h2>
+              ) : (
+                ""
+              )}
               {allAddresses?.length == 0 ? (
-                <div className="text-center">
-                  <p className="mb-5 text-lg md:text-xl font-semibold ">
-                    Dont't Have Addresses Yet
+                <div className="text-center mb-4">
+                  <p className="my-4 text-lg md:text-xl font-semibold ">
+                    You dont't Have Addresses Yet!
                   </p>
                   <Link
                     to={"/AddUserAddress"}
@@ -136,10 +140,11 @@ export default function CheckOut() {
                       changeAddressColor == address
                         ? "bg-[#248224] text-white"
                         : "bg-[#F0F3F2]"
-                    } rounded-md border py-2 px-5 text-opacity-100 lg:text-lg text-center cursor-pointer hover:border-[#248224] duration-200`}
+                    } rounded-md border py-2 px-3 text-opacity-100 text-sm text-left lg:text-lg lg:text-center cursor-pointer hover:border-[#248224] duration-200`}
                   >
-                    <span className="font-semibold">{name}</span> {address.city}
-                    , {address.name}, {address.phone}, {address.details}
+                    <span className="font-semibold">{name}</span>,{" "}
+                    {address.city}, {address.name}, {address.phone},{" "}
+                    {address.details}
                   </div>
                 ))}
               </div>
