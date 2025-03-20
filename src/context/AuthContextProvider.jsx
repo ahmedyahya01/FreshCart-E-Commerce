@@ -7,6 +7,8 @@ export default function AuthContextProvider({ children }) {
   const [email, setEmail] = useState(null);
   const [name, setName] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+
   useEffect(() => {
     if (localStorage.getItem("tkn")) {
       setToken(localStorage.getItem("tkn"));
@@ -33,6 +35,8 @@ export default function AuthContextProvider({ children }) {
         name,
         setUserId,
         userId,
+        openModal,
+        setOpenModal,
       }}
     >
       {children}

@@ -21,7 +21,7 @@ export default function Login() {
   const [loading, setIsLoading] = useState(false);
   const [isFail, setIsFail] = useState(null);
   const [isSuccess, setIsSuccess] = useState(null);
-  const { setToken, setEmail, setName, setUserId } =
+  const { setToken, setEmail, setName, setUserId, token } =
     useContext(authContextProvider);
   async function userLogin(values) {
     try {
@@ -93,7 +93,11 @@ export default function Login() {
         ),
     }),
   });
-
+  useEffect(() => {
+    if (token) {
+      navigate("/home");
+    }
+  }, []);
   return (
     <>
       <Helmet>

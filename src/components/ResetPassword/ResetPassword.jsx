@@ -18,7 +18,7 @@ export default function ResetPassword() {
   const [isFail, setIsFail] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { setToken } = useContext(authContextProvider);
+  const { token } = useContext(authContextProvider);
   const user = {
     email: localStorage.getItem("email"),
     newPassword: "",
@@ -57,6 +57,11 @@ export default function ResetPassword() {
         ),
     }),
   });
+  useEffect(() => {
+    if (token) {
+      navigate("/home");
+    }
+  }, []);
   return (
     <>
       <Helmet>

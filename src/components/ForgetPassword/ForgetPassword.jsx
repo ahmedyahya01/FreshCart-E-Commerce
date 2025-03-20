@@ -13,7 +13,7 @@ export default function ForgetPassword() {
     window.scroll(0, 0);
     emailRef.current.focus();
   }, []);
-  const { setEmail } = useContext(authContextProvider);
+  const { setEmail, token } = useContext(authContextProvider);
   const [isLoading, setIsLoading] = useState(null);
   const [isSuccess, setIsSuccess] = useState(null);
   const [isfail, setIsfail] = useState(null);
@@ -57,6 +57,11 @@ export default function ForgetPassword() {
         ),
     }),
   });
+  useEffect(() => {
+    if (token) {
+      navigate("/home");
+    }
+  }, []);
   return (
     <>
       <Helmet>
@@ -128,19 +133,16 @@ export default function ForgetPassword() {
                 >
                   Enter your email
                 </label>
-              {forgetPassFormik.errors.email &&
-              forgetPassFormik.touched.email ? (
-                <div
-                  className="mt-2 text-base text-red-800"
-                  role="alert"
-                >
-                  <span className="font-medium">
-                    {forgetPassFormik.errors.email}
-                  </span>
-                </div>
-              ) : (
-                ""
-              )}
+                {forgetPassFormik.errors.email &&
+                forgetPassFormik.touched.email ? (
+                  <div className="mt-2 text-base text-red-800" role="alert">
+                    <span className="font-medium">
+                      {forgetPassFormik.errors.email}
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
               <button
                 type="submit"

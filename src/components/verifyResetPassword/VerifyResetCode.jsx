@@ -12,7 +12,7 @@ export default function VerifyResetCode() {
     window.scroll(0, 0);
     passwordRef.current.focus();
   }, []);
-  const { email } = useContext(authContextProvider);
+  const { email, token } = useContext(authContextProvider);
   const [isFail, setIsFail] = useState(false);
   const navigate = useNavigate();
   async function resetCode(values) {
@@ -43,6 +43,11 @@ export default function VerifyResetCode() {
         .max(6, "resetCode must be between 4 and 6 characters"),
     }),
   });
+  useEffect(() => {
+    if (token) {
+      navigate("/home");
+    }
+  }, []);
   return (
     <>
       <Helmet>

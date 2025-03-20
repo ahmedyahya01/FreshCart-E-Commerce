@@ -11,6 +11,7 @@ import AddressContextProvider from "./context/AddressContext";
 import WishlistContextProvider from "./context/WishlistContext";
 import ErrorFallback from "./components/ErrorFallback/ErrorFallback";
 import { Offline } from "react-detect-offline";
+
 // Lazy Loaded Components
 const Layout = lazy(() => import("./components/Layout/Layout"));
 const Home = lazy(() => import("./components/Home/Home"));
@@ -57,94 +58,75 @@ const ResetPassword = lazy(() =>
 
 const queryClient = new QueryClient();
 
+function withSuspense(Component, isProtected = false) {
+  const WrappedComponent = () => (
+    <Suspense fallback={<Loader />}>
+      <Component />
+    </Suspense>
+  );
+
+  return isProtected ? (
+    <ProtectedRoute>
+      <WrappedComponent />
+    </ProtectedRoute>
+  ) : (
+    <WrappedComponent />
+  );
+}
 export default function App() {
   const router = createHashRouter([
     {
       path: "",
-      element: <Layout />,
+      element: (
+        <Suspense fallback={<Loader />}>
+          <Layout />
+        </Suspense>
+      ),
       errorElement: <ErrorFallback />,
       children: [
-        { index: true, element: <Home /> },
-        { path: "home", element: <Home /> },
-        { path: "/Login", element: <Login /> },
-        { path: "/SignUp", element: <SignUp /> },
-        { path: "/Products", element: <Products /> },
-        { path: "productDetails/:id/:categoryId", element: <ProductDetails /> },
-        { path: "/Categories", element: <Categories /> },
+        { index: true, element: withSuspense(Home) },
+        { path: "home", element: withSuspense(Home) },
+        { path: "/Login", element: withSuspense(Login) },
+        { path: "/SignUp", element: withSuspense(SignUp) },
+        { path: "/Products", element: withSuspense(Products) },
+        {
+          path: "productDetails/:id/:categoryId",
+          element: withSuspense(ProductDetails),
+        },
+        { path: "/Categories", element: withSuspense(Categories) },
         {
           path: "/SpecificCategory/:categoryId",
-          element: <SpecificCategory />,
+          element: withSuspense(SpecificCategory),
         },
-        { path: "/Brands", element: <Brands /> },
-        { path: "/SpecificBrand/:BrandId", element: <SpecificBrand /> },
+        { path: "/Brands", element: withSuspense(Brands) },
         {
-          path: "/cart",
-          element: (
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          ),
+          path: "/SpecificBrand/:BrandId",
+          element: withSuspense(SpecificBrand),
         },
-        {
-          path: "/Wishlist",
-          element: (
-            <ProtectedRoute>
-              <Wishlist />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "/allorders",
-          element: (
-            <ProtectedRoute>
-              <AllOrders />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "/CheckOut",
-          element: (
-            <ProtectedRoute>
-              <CheckOut />
-            </ProtectedRoute>
-          ),
-        },
+        { path: "/cart", element: withSuspense(Cart, true) },
+        { path: "/Wishlist", element: withSuspense(Wishlist, true) },
+        { path: "/allorders", element: withSuspense(AllOrders, true) },
+        { path: "/CheckOut", element: withSuspense(CheckOut, true) },
         {
           path: "/AllUserAddresses",
-          element: (
-            <ProtectedRoute>
-              <AllUserAddresses />
-            </ProtectedRoute>
-          ),
+          element: withSuspense(AllUserAddresses, true),
         },
         {
           path: "/AddUserAddress",
-          element: (
-            <ProtectedRoute>
-              <AddUserAddress />
-            </ProtectedRoute>
-          ),
+          element: withSuspense(AddUserAddress, true),
         },
         {
           path: "/UpdatePassword",
-          element: (
-            <ProtectedRoute>
-              <UpdatePassword />
-            </ProtectedRoute>
-          ),
+          element: withSuspense(UpdatePassword, true),
         },
         {
           path: "/UpdateUserData",
-          element: (
-            <ProtectedRoute>
-              <UpdateUserData />
-            </ProtectedRoute>
-          ),
+          element: withSuspense(UpdateUserData, true),
         },
-        { path: "/ForgetPassword", element: <ForgetPassword /> },
-        { path: "/VerifyResetCode", element: <VerifyResetCode /> },
-        { path: "/ResetPassword", element: <ResetPassword /> },
-        { path: "*", element: <NotFound /> },
+        { path: "/ForgetPassword", element: withSuspense(ForgetPassword) },
+        { path: "/VerifyResetCode", element: withSuspense(VerifyResetCode) },
+        { path: "/ResetPassword", element: withSuspense(ResetPassword) },
+        { path: "*", element: withSuspense(NotFound) },
       ],
     },
   ]);
@@ -155,14 +137,12 @@ export default function App() {
         <CartContextProvider>
           <AddressContextProvider>
             <WishlistContextProvider>
-              <Suspense fallback={<Loader />}>
-                <RouterProvider router={router} />
-              </Suspense>
-              <Offline>
+              <RouterProvider router={router} />
+              {/* <Offline>
                 <div className="fixed w-10/12 md:w-fit lg:text-lg top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-black text-white text-center rounded-md py-3 px-5 font-bold z-50">
                   ⚠️ No Internet Connection. Please check your network.
                 </div>
-              </Offline>
+              </Offline> */}
               <Toaster />
             </WishlistContextProvider>
           </AddressContextProvider>

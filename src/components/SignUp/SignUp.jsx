@@ -22,7 +22,7 @@ export default function SignUp() {
   const [loading, setIsLoading] = useState(false);
   const [isFail, setIsFail] = useState(null);
   const [isSuccess, setIsSuccess] = useState(null);
-  const { setToken, setEmail, setName, setUserId } =
+  const { setToken, token, setEmail, setName, setUserId } =
     useContext(authContextProvider);
   async function userRegistration(values) {
     try {
@@ -124,7 +124,11 @@ export default function SignUp() {
         ),
     }),
   });
-
+  useEffect(() => {
+    if (token) {
+      navigate("/home");
+    }
+  }, []);
   return (
     <>
       <Helmet>
@@ -193,7 +197,10 @@ export default function SignUp() {
                 Name
               </label>
               {registerFormik.errors.name && registerFormik.touched.name ? (
-                <div className="mt-2 text-sm md:text-base text-red-800" role="alert">
+                <div
+                  className="mt-2 text-sm md:text-base text-red-800"
+                  role="alert"
+                >
                   <span className="font-medium">
                     {registerFormik.errors.name}
                   </span>
@@ -221,7 +228,10 @@ export default function SignUp() {
                 Email
               </label>
               {registerFormik.errors.email && registerFormik.touched.email ? (
-                <div className="mt-2 text-sm md:text-base text-red-800" role="alert">
+                <div
+                  className="mt-2 text-sm md:text-base text-red-800"
+                  role="alert"
+                >
                   <span className="font-medium">
                     {registerFormik.errors.email}
                   </span>
@@ -249,7 +259,10 @@ export default function SignUp() {
                 Phone Number
               </label>
               {registerFormik.errors.phone && registerFormik.touched.phone ? (
-                <div className="mt-2 text-sm md:text-base text-red-800" role="alert">
+                <div
+                  className="mt-2 text-sm md:text-base text-red-800"
+                  role="alert"
+                >
                   <span className="font-medium">
                     {registerFormik.errors.phone}
                   </span>
@@ -288,16 +301,16 @@ export default function SignUp() {
                 ></i>
               )}
             </div>
-              {registerFormik.errors.password &&
-              registerFormik.touched.password ? (
-                <div className="mt-2 mb-5 text-base text-red-800" role="alert">
-                  <span className="font-medium">
-                    {registerFormik.errors.password}
-                  </span>
-                </div>
-              ) : (
-                ""
-              )}
+            {registerFormik.errors.password &&
+            registerFormik.touched.password ? (
+              <div className="mt-2 mb-5 text-base text-red-800" role="alert">
+                <span className="font-medium">
+                  {registerFormik.errors.password}
+                </span>
+              </div>
+            ) : (
+              ""
+            )}
             <div className="relative z-0 w-full mb-6 group">
               <input
                 onBlur={registerFormik.handleBlur}
