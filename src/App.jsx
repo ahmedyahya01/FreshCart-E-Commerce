@@ -1,6 +1,10 @@
 import React, { lazy, Suspense } from "react";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import { createHashRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createHashRouter,
+  RouterProvider,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import Loader from "./components/LoadingScreen/Loader";
@@ -74,7 +78,7 @@ function withSuspense(Component, isProtected = false) {
   );
 }
 export default function App() {
-  const router = createHashRouter([
+  const router = createBrowserRouter([
     {
       path: "",
       element: (
@@ -130,7 +134,6 @@ export default function App() {
       ],
     },
   ]);
-
   return (
     <AuthContextProvider>
       <QueryClientProvider client={queryClient}>

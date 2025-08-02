@@ -31,7 +31,6 @@ export default function SignUp() {
         "https://ecommerce.routemisr.com/api/v1/auth/signup",
         values
       );
-      console.log(data);
       setIsLoading(false);
       setIsSuccess(data.message);
       setEmail(data.user.email);
@@ -62,8 +61,6 @@ export default function SignUp() {
       }, 2000);
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
-
       setIsFail(error.response.data.message);
       setTimeout(() => {
         setIsFail(false);

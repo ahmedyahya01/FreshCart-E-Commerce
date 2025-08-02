@@ -28,9 +28,9 @@ export default function CheckOut() {
         `https://ecommerce.routemisr.com/api/v1/orders/${cartId}`,
         {
           shippingAddress: {
-            details: selectedAddress?.details,
-            phone: selectedAddress?.phone,
-            city: selectedAddress?.city,
+            details: selectedAddress.details,
+            phone: selectedAddress.phone,
+            city: selectedAddress.city,
           },
         },
         {
@@ -57,14 +57,14 @@ export default function CheckOut() {
     setOnlineLoding(true);
     try {
       const res = await axios.post(
-        // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`,
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`,
         // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://fresh-cart-e-commerce-beta.vercel.app/`,
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://freshcart-ecommerce1.netlify.app`,
+        // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://freshcart-ecommerce1.netlify.app`,
         {
           shippingAddress: {
-            details: selectedAddress?.details,
-            phone: selectedAddress?.phone,
-            city: selectedAddress?.city,
+            details: selectedAddress.details,
+            phone: selectedAddress.phone,
+            city: selectedAddress.city,
           },
         },
         {
@@ -73,7 +73,7 @@ export default function CheckOut() {
           },
         }
       );
-      window.open(res.data.session.url);
+      window.location.replace(res.data.session.url);
       localStorage.removeItem("Cart");
       setCartProducts([]);
     } catch (error) {}
